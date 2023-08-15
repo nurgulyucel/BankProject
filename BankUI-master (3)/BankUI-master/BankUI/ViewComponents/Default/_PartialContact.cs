@@ -1,4 +1,5 @@
 ﻿using BankUI.Context;
+using BankUI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankUI.ViewComponents.Default
@@ -12,11 +13,17 @@ namespace BankUI.ViewComponents.Default
             _efContext = efContext;
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(Contact contact)
         {
+            if (ModelState.IsValid) 
+            {
+                _efContext.Contacts.Add(contact); 
+                _efContext.SaveChanges(); 
+            }
             var values = _efContext.Contacts.ToList();
             return View(values);
         }
+        }
     }
-}
+
 
